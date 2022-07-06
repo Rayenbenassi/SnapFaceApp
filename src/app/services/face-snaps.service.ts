@@ -5,6 +5,7 @@ import { FaceSnap } from "../models/face-snap.model";
     providedIn:'root'
 })
 export class FaceSnapsService{
+ 
     faceSnaps:FaceSnap[]=[
         new FaceSnap(1,'Rayen','Ce ci est moi',new Date(),999,'https://scontent.ftun16-1.fna.fbcdn.net/v/t39.30808-6/256123927_1127892831083176_5868521204591735323_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=pF2LiniWhXsAX_SjZ7q&_nc_ht=scontent.ftun16-1.fna&oh=00_AT-tRILMD1hwWjJ39E7mT_ScnHRvi5UknFPv_kQci7egkw&oe=62C78CD1','Gafsa'),
         new FaceSnap(2,'olfa','this is olfa',new Date(),10000000,'https://scontent.ftun16-1.fna.fbcdn.net/v/t39.30808-6/244203468_1551626955185446_7943379445875962108_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=9FJXKjuVZRsAX9sMFIn&_nc_ht=scontent.ftun16-1.fna&oh=00_AT-pxqKaOvJdsEcPNiSu0CLAD0nd-G6yCSLnDtFwGdD3ow&oe=62C5F5C2','Paris'),
@@ -13,8 +14,28 @@ export class FaceSnapsService{
       getAllFaceSnaps():FaceSnap[]{
         return this.faceSnaps;
       }
-      snapFaceSnapById(id:number):void{
-               const faceSnap = this.faceSnaps.find(faceSnap=>faceSnap.id===id);
+   
+      unsnapp(id:number):void{
+        const faceSnap = this.faceSnaps.find(faceSnap=>faceSnap.id===id);
+               if(faceSnap){
+                faceSnap.snaps--;
+               }else{
+                throw new Error('face snap not found')
+               }
+
       }
+      getFaceSnapById(faceSnapId: number): FaceSnap {
+        const faceSnap = this.faceSnaps.find(faceSnap => faceSnap.id === faceSnapId);
+        if (!faceSnap) {
+            throw new Error('FaceSnap not found!');
+        } else {
+            return faceSnap;
+        }
+      }
+      snapFaceSnapById(faceSnapId: number, snapType: string): void {
+        const faceSnap = this.getFaceSnapById(faceSnapId);
+        snapType === 'snap' ? faceSnap.snaps++ : faceSnap.snaps--;
+    }
+     
 
 }
